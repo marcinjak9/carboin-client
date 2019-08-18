@@ -1,0 +1,30 @@
+$lightGreen: #94C53E;
+$green: #115757;
+$purple: #82277C;
+
+// Update Bulma's global variables
+$family-sans-serif: 'Open Sans', sans-serif;
+$grey-dark: #333;
+$grey-light: #A2A2A2;
+$primary: $lightGreen;
+$link: $purple;
+$widescreen-enabled: true;
+$fullhd-enabled: true;
+// $footer-background-color: $purple;
+
+// Update some of Bulma's component variables
+$body-background-color: #fff;
+$control-border-width: 2px;
+$input-border-color: transparent;
+$input-shadow: none;
+
+// Import only what you need from Bulma
+@import 'bulma/bulma.sass';
+// @import 'bulma/sass/base/_all.sass';
+// @import 'bulma/sass/elements/button.sass';
+// @import 'bulma/sass/elements/container.sass';
+// @import 'bulma/sass/elements/form.sass';
+// @import 'bulma/sass/elements/title.sass';
+// @import 'bulma/sass/components/navbar.sass';
+// @import 'bulma/sass/layout/hero.sass';
+// @import 'bulma/sass/layout/section.sass';
