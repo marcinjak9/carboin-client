@@ -1,8 +1,8 @@
 import produce from 'immer'
-import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS } from '../constants'
+import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS, LOGOUT } from '../constants'
 
 const initialState = {
-  loading: false,
+  loading: true,
   error: false,
   user: null,
 }
@@ -22,6 +22,11 @@ export default function (state = initialState, action) {
       case LOGIN_ERROR:
         draft.loading = false;
         draft.error = action.error;
+        break;
+      case LOGOUT:
+        draft.loading = false;
+        draft.error = false;
+        draft.user = null;
         break;
       default:
         break;

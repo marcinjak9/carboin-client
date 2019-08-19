@@ -1,20 +1,17 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { isLoaded, isEmpty } from 'react-redux-firebase'
 
-const PrivateRoute = ({ auth: { loading, user, error }, component: Component, ...rest }) => {
-  console.log(loading)
-  if (error) {
-    return <p>An error occured</p>
-  }
-  if (loading || user === null) {
+const PrivateRoute = ({ auth, component: Component, ...rest }) => {
+  if (!isLoaded(auth)) {
     return <p>Loading</p>
   }
   return (
     <Route
       {...rest}
       render={props =>
-        (user && user.uid) ? (
+        (!isEmpty(auth)) ? (
           <Component {...props} />
         ) : (
           <Redirect
@@ -29,6 +26,6 @@ const PrivateRoute = ({ auth: { loading, user, error }, component: Component, ..
   )
 }
 
-const mapStateToProps = ({ auth }) => ({ auth })
+const mapStateToProps = ({ firebase: { auth } }) => ({ auth })
 
 export default connect(mapStateToProps, null)(PrivateRoute)

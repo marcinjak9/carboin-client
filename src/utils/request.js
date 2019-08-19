@@ -38,7 +38,8 @@ class ApiApp {
     const id = this.auth.currentUser.uid;
     const ref = this.storage.child(`${id}.${file.name.split('.').pop()}`);
     const f = await ref.put(file)
-    return f.ref.location.path
+    const url = await this.getImage(f.ref.location.path)
+    return url
   }
 
   async setProfile() {
@@ -96,6 +97,15 @@ class ApiApp {
       const t = []
       transactions.forEach(tra => t.push({ id: tra.id, ...tra.data() }))
       return { id: doc.id, ...doc.data(), transactions: t }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async getFeed() {
+    try {
+      const docs = await this.db.collection('feed').get()
+      docs.forEach(doc => doc.data().user.get().then(d => console.log(d.data())))
     } catch (error) {
       console.log(error)
     }

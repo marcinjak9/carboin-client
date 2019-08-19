@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { compose } from 'redux'
 import { Link, withRouter } from 'react-router-dom'
+import withFirebase from 'react-redux-firebase/lib/withFirebase'
 import { ReactComponent as Logo } from '../images/LOGO_NEGAVTIVO.svg';
 import Avatar from './Avatar';
 
@@ -55,7 +57,8 @@ const NAV = {
 }
 
 const Navigation = ({
-  location: { pathname }
+  location: { pathname },
+  firebase
 }) => {
   return (
     <NavWrapper>
@@ -69,6 +72,7 @@ const Navigation = ({
         <div className="nav-section right">
           {/* <Link to="/profile">Profile</Link> */}
           {NAV.right.map(n => <Link key={n.name} to={n.to} className={pathname === n.to ? 'active' : '' }>{n.name}</Link>)}
+          <button className="button is-danger" onClick={firebase.logout}>Logout</button>
           <Avatar />
         </div>
       </div>
@@ -76,4 +80,4 @@ const Navigation = ({
   )
 }
 
-export default withRouter(Navigation)
+export default compose(withFirebase, withRouter)(Navigation)

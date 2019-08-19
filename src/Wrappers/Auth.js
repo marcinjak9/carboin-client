@@ -1,13 +1,17 @@
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { signIn } from './Login/actions'
+import { signIn, logout } from './Login/actions'
 import { Api } from '../utils/request'
 
-const Auth = ({ success }) => {
+const Auth = ({ success, error, auth }) => {
+  console.log(auth)
   useEffect(() => {
     Api().auth.onAuthStateChanged((user) => {
+      console.log(user)
       if (user) {
         success(user)
+      } else {
+        error()
       }
     })
   }, [])
@@ -26,10 +30,11 @@ const mapDispatchToProps = dispatch => {
       }
       dispatch(signIn(u))
     },
+    error: () => dispatch(logout())
   }
 }
 
 export default connect(
-  null,
+  ({ auth }) => ({ auth }),
   mapDispatchToProps,
 )(Auth)

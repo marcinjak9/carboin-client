@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import { compose } from 'redux'
+import withFirebase from 'react-redux-firebase/lib/withFirebase'
+import { isLoaded, isEmpty } from 'react-redux-firebase'
 import { signInLoading, signIn, signInError } from './actions'
-import firebase from '../../App'
+import Container from '../../Components/Container';
+// import { Api } from '../../utils/request'
 
-const Login = ({ handleLogin, auth: { user } }) => {
+const Login = (props) => {
+  const { handleLogin, auth, firebase } = props
   const [email, setEmail] = useState("marcinjak9@gmail.com")
   const [password, setPassword] = useState("password")
-
   useEffect(() => {
     // console.log(firebase.auth().currentUser)
     // firebase.auth().currentUser.getIdToken()
@@ -15,42 +19,59 @@ const Login = ({ handleLogin, auth: { user } }) => {
     //   .catch(e => console.log(e))
   },[])
 
-  const handleSubmit = (e) => {
+  const submit = (e) => {
     e.preventDefault()
-    handleLogin(email, password)
+    // handleLogin(email, password)
+    firebase.login({ email, password })
   }
   
-  if (user && user.uid) {
-    return <Redirect to="/" />
+  if (!isLoaded(auth)) {
+    return <span>Loading...</span>
   }
-
-  return (
-    <div>
-      <input type="email" value={email} onChange={e => setEmail(e.target.value)} />
-      <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
-      <button onClick={handleSubmit}>Login</button>
-    </div>
-  )
+  if (isEmpty(auth)) {
+    return (
+      <div className="section">
+        <Container small>
+          <div className="field">
+            <div className="control">
+              <input className="input" type="text" placeholder="Email" value={email} onChange={({ target: { value }}) => setEmail(value)} />
+            </div>
+          </div>
+          <div className="field">
+            <div className="control">
+              <input className="input" type="password" placeholder="Password" value={password} onChange={({ target: { value }}) => setPassword(value)} />
+            </div>
+          </div>
+          <button className="button is-primary" onClick={submit}>
+            Login
+          </button>
+        </Container>
+      </div>
+    )
+  }
+  return <Redirect to="/" />
 }
 
-const mapStateToProps = ({ auth }) => ({ auth })
+const mapStateToProps = ({ firebase: { auth } }) => ({ auth })
 
 const mapDispatchToProps = dispatch => {
   return {
     handleLogin: async (email, password) => {
-      dispatch(signInLoading())
-      try {
-        const { user } = await firebase.doSignInWithEmailAndPassword(email, password)
-        dispatch(signIn(user))
-      } catch (error) {
-        console.log(error)
-        dispatch(signInError(error))
-      }
+      // dispatch(signInLoading())
+      // try {
+      //   const { user } = await Api().auth.signInWithEmailAndPassword(email, password)
+      //   dispatch(signIn(user))
+      // } catch (error) {
+      //   console.log(error)
+      //   dispatch(signInError(error))
+      // }
     }
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+export default compose(
+  withFirebase,
+  connect(mapStateToProps, mapDispatchToProps)
 )(Login)
+
+// export default enhance(Login)

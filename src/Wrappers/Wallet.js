@@ -3,7 +3,7 @@ import Container from '../Components/Container';
 import Transaction from '../Components/Transaction';
 import TotalDonaton from '../Components/TotalDonaton';
 import WalletHead from '../Components/WalletHead';
-import { Api } from '../utils/request'
+// import { Api } from '../utils/request'
 import Modal from '../Components/Modal';
 
 const TRANSACTIONS = [
@@ -39,11 +39,11 @@ export default function Wallet({ match: { params: { id }}, history }) {
   const [transactions, /* setTransactions */] = useState(TRANSACTIONS)
   const [wallet, setWallet] = useState(null)
   useEffect(() => {
-    async function fetchData() {
-      const wallet = await Api().getWallet(id)
-      setWallet(wallet)
-    }
-    fetchData()
+    // async function fetchData() {
+    //   const wallet = await Api().getWallet(id)
+    //   setWallet(wallet)
+    // }
+    // fetchData()
   }, [])
   
   // const handleSelect = (id) => {

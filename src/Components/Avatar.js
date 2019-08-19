@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { Api } from '../utils/request'
+import md5 from 'md5'
 
 const AvatarS = styled.img`
   background-color: #fff;
@@ -13,27 +13,20 @@ const AvatarS = styled.img`
   border-radius: 50%;
 `
 
-const Avatar = ({ auth, id, size }) => {
-  const [url, setUrl] = useState('')
-
-  useEffect(() => {
-    if (id) {
-      fetchPhoto(id)
-    } else if (auth.user && !url) {
-      fetchPhoto()
+const Avatar = ({ auth, size }) => {
+  let url = 'https://www.gravatar.com/avatar/'
+  if (auth && auth.user) {
+    if (auth.user.photoURL) {
+      url = auth.user.photoURL;
+    } else {
+      url = `https://www.gravatar.com/avatar/${md5(auth.user.email)}`
     }
-  }, auth.user ? [auth.user.photoURL] : [''])
-
-  async function fetchPhoto() {
-    const u = await Api().getImage(auth.user.photoURL)
-    setUrl(u)
   }
-
   return (
     <AvatarS src={url} size={size} />
   )
 }
 
-const mapStateToProps = ({ auth }) => ({ auth })
+const mapStateToProps = ({ firebase: { auth } }) => ({ auth })
 
 export default connect(mapStateToProps)(Avatar)

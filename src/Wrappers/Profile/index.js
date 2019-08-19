@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
-import { Api } from '../../utils/request'
+// import { Api } from '../../utils/request'
 
 
 const Profile = ({
@@ -13,8 +13,8 @@ const Profile = ({
   const [photoURL, setPhotoURL] = useState(pURL)
 
   const uplodAvatar = async (file) => {
-    const image = await Api().uploadAvatar(file)
-    setPhotoURL(image)
+    // const image = await Api().uploadAvatar(file)
+    // setPhotoURL(image)
   }
   
   return (
@@ -27,16 +27,16 @@ const Profile = ({
   )
 }
 
-const mapStateToProps = ({ auth }) => ({ auth })
+const mapStateToProps = ({ firebase: { auth } }) => ({ auth })
 
 
 
 const mapDispatchToProps = () => ({
   save: async (name, photoURL) => {
-    await Api().auth.currentUser.updateProfile({
-      displayName: name,
-      photoURL
-    })
+    // await Api().auth.currentUser.updateProfile({
+    //   displayName: name,
+    //   photoURL
+    // })
     // await firebase.auth().curre
   }
 })

@@ -1,6 +1,7 @@
 import 'isomorphic-fetch'
-import React from 'react'
+import React , { useEffect } from 'react'
 import styled from 'styled-components'
+// import { Api } from '../utils/request'
 import Container from '../Components/Container'
 import Hero from '../Components/Hero';
 import FeedItem from '../Components/FeedItem';
@@ -11,6 +12,12 @@ const Section = styled.div`
 `
 
 const Home = () => {
+  useEffect(() => {
+    // async function fetchData() {
+    //   await Api().getFeed()
+    // }
+    // fetchData()
+  }, [])
   return (
     <>
       <Hero
