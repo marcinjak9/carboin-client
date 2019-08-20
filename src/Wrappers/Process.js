@@ -92,7 +92,7 @@ const Recap = styled.div`
   }
 `;
 
-const Process = ({ auth }) => {
+const Process = ({ auth, firestore }) => {
   const [value, setValue] = useState(3);
   const [code, setCode] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -118,6 +118,19 @@ const Process = ({ auth }) => {
     const json = await data.json();
     setLoading(false);
     setCode(json.data.code);
+  };
+
+  const createDonationBeta = async () => {
+    setLoading(true);
+    try {
+      await firestore.add("feed", {
+        amount: value,
+        user: auth.uid
+      });
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
   };
   return (
     <section className="section">
@@ -169,7 +182,7 @@ const Process = ({ auth }) => {
             <h3>Your offset value is {Math.floor(value * 2.8)} $</h3>
             <p>Make the donation and show the community!</p>
           </div>
-          {!code ? (
+          {/* {!code ? (
             <button
               className={`button is-primary ${loading ? "is-loading" : ""}`}
               onClick={getPaymentUrl}
@@ -181,7 +194,10 @@ const Process = ({ auth }) => {
               className="button is-primary"
               chargeId={code}
             />
-          )}
+          )} */}
+          <button className="button is-primary" onClick={createDonationBeta}>
+            Create Donation
+          </button>
         </Recap>
       </Container>
     </section>

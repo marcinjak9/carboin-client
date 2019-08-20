@@ -20,6 +20,9 @@ import Process from "./Wrappers/Process";
 import Settings from "./Wrappers/Settings";
 import Logout from "./Wrappers/Logout";
 import { UserIsAuthenticated } from "./Components/AuthUtilis";
+import History from "./Wrappers/History";
+import Projects from "./Wrappers/Projects";
+import PublicProfile from "./Wrappers/PublicProfile";
 
 const App = () => {
   return (
@@ -29,11 +32,14 @@ const App = () => {
         <Router>
           <Navbar />
           <div style={{ minHeight: "80vh" }}>
+            <Route path="/" exact component={UserIsAuthenticated(Home)} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={SignUp} />
-            <Route path="/" exact component={UserIsAuthenticated(Home)} />
+            <Route path="/u/:id" component={PublicProfile} />
             <Route path="/logout" component={UserIsAuthenticated(Logout)} />
             <Route path="/process" component={UserIsAuthenticated(Process)} />
+            <Route path="/history" component={UserIsAuthenticated(History)} />
+            <Route path="/projects" component={UserIsAuthenticated(Projects)} />
             <Route path="/wallet" component={UserIsAuthenticated(Wallets)} />
             <Route
               path="/wallet/:id"

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import classNames from "classnames";
 import { compose } from "redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import withFirebase from "react-redux-firebase/lib/withFirebase";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 import Container from "../Components/Container";
@@ -84,6 +84,9 @@ const SignUp = ({ auth, firebase }) => {
           >
             Sign Up
           </button>
+          <div className="has-text-centered" style={{ marginTop: "2rem" }}>
+            <Link to="/login">Already have an account?</Link>
+          </div>
         </Container>
       </div>
     );

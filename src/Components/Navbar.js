@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { compose } from "redux";
+import { connect } from "react-redux";
+import { isLoaded, isEmpty } from "react-redux-firebase";
 import { Link, withRouter } from "react-router-dom";
 import withFirebase from "react-redux-firebase/lib/withFirebase";
 import { ReactComponent as Logo } from "../images/LOGO_verde.svg";
@@ -8,42 +10,7 @@ import Avatar from "./Avatar";
 import NavDropdown from "./NavDropdown";
 
 const NavWrapper = styled.nav`
-  width: 100%;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  background-color: #115757;
-  display: flex;
-  justify-content: center;
-
-  .nav {
-    width: 100%;
-    padding: 20px;
-    max-width: 960px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .nav-section {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    &.center {
-      justify-content: center;
-    }
-    &.right {
-      justify-content: flex-end;
-    }
-
-    a {
-      color: #fff;
-      font-weight: 700;
-      padding: 5px 10px;
-      text-decoration: none;
-      &.active {
-        border-bottom: 2px solid #fff;
-      }
-    }
-  }
+  font-weight: 700;
 `;
 
 const NAV = [
@@ -69,15 +36,21 @@ const NAV_AVATAR = [
   { name: "Sign out", to: "/logout" }
 ];
 
-const Navigation = ({ location: { pathname }, firebase }) => {
+const Navigation = ({ location: { pathname }, auth }) => {
   const [open, setOpen] = useState(false);
 
   const toggle = e => {
     e.preventDefault();
     setOpen(!open);
   };
+
+  const isLogged = isLoaded(auth) && !isEmpty(auth);
   return (
-    <nav className="navbar" role="navigation" aria-label="main navigation">
+    <NavWrapper
+      className="navbar"
+      role="navigation"
+      aria-label="main navigation"
+    >
       <div className="container">
         <div className="navbar-brand">
           <Link className="navbar-item" to="/">
@@ -97,53 +70,59 @@ const Navigation = ({ location: { pathname }, firebase }) => {
 
         <div className={`navbar-menu ${open ? "is-active" : ""}`}>
           <div className="navbar-start">
-            {NAV.map(n => {
-              if (n.to) {
-                return (
-                  <Link key={n.name} to={n.to} className="navbar-item">
-                    {n.name}
-                  </Link>
-                );
-              }
-              if (n.dropdown) {
-                return (
-                  <NavDropdown
-                    key={n.name}
-                    name={n.name}
-                    dropdown={n.dropdown}
-                  />
-                );
-              }
-            })}
+            {isLogged &&
+              NAV.map(n => {
+                if (n.to) {
+                  return (
+                    <Link key={n.name} to={n.to} className="navbar-item">
+                      {n.name}
+                    </Link>
+                  );
+                }
+                if (n.dropdown) {
+                  return (
+                    <NavDropdown
+                      key={n.name}
+                      name={n.name}
+                      dropdown={n.dropdown}
+                    />
+                  );
+                }
+              })}
           </div>
 
           <div className="navbar-end">
             <div className="navbar-item">
-              <div className="navbar-item has-dropdown is-hoverable">
-                <a className="navbar-link">
-                  <Avatar />
-                </a>
-                {/* <a className="navbar-link">More</a> */}
+              {isLogged ? (
+                <div className="navbar-item has-dropdown is-hoverable">
+                  <a className="navbar-link">
+                    <Avatar />
+                  </a>
+                  {/* <a className="navbar-link">More</a> */}
 
-                <div className="navbar-dropdown is-right">
-                  {NAV_AVATAR.map(n => (
-                    <Link key={n.name} to={n.to} className="navbar-item">
-                      {n.name}
-                    </Link>
-                  ))}
+                  <div className="navbar-dropdown is-right">
+                    {NAV_AVATAR.map(n => (
+                      <Link key={n.name} to={n.to} className="navbar-item">
+                        {n.name}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              {/* <div className="buttons">
-              <a className="button is-primary">
-                <strong>Sign up</strong>
-              </a>
-              <a className="button is-light">Log in</a>
-            </div> */}
+              ) : (
+                <div className="buttons">
+                  <Link className="button is-primary" to="/signup">
+                    <strong>Sign up</strong>
+                  </Link>
+                  <Link className="button is-light" to="/login">
+                    Log in
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
-    </nav>
+    </NavWrapper>
     // <NavWrapper>
     //   <div className="nav">
     //     <div className="nav-section left">
@@ -192,5 +171,6 @@ const Navigation = ({ location: { pathname }, firebase }) => {
 
 export default compose(
   withFirebase,
-  withRouter
+  withRouter,
+  connect(({ firebase: { auth } }) => ({ auth }))
 )(Navigation);

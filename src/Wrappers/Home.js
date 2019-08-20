@@ -27,11 +27,7 @@ const Home = ({ feed }) => {
             <div className="column is-two-thirds">
               {feed &&
                 feed.map(f => (
-                  <FeedItem
-                    key={f.key}
-                    amount={f.amount}
-                    displayName={f.user.displayName}
-                  />
+                  <FeedItem key={f.key} amount={f.amount} user={f.user} />
                 ))}
             </div>
             <div className="column">

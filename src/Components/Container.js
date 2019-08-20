@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from "classnames";
 import styled, { css } from "styled-components";
 
 const card = css`
@@ -19,7 +20,7 @@ const C = styled.div`
 
 const Container = props => (
   <C
-    className="container"
+    className={classNames("container", props.className)}
     small={props.small}
     paddingVertical={props.paddingVertical}
     card={props.card}
