@@ -1,14 +1,9 @@
-import React from 'react'
+import React from "react";
 
-const Modal = ({
-  children,
-  title,
-  onCloseClick,
-  onEditClick
-}) => {
+const Modal = ({ children, title, onCloseClick, onEditClick, open }) => {
   return (
-    <div className="modal is-active">
-      <div className="modal-background"></div>
+    <div className={`modal ${open ? "is-active" : ""}`}>
+      <div className="modal-background" />
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">{title}</p>
@@ -18,30 +13,22 @@ const Modal = ({
             onClick={onCloseClick}
           />
         </header>
-        <section className="modal-card-body">
-          {children}
-        </section>
+        <section className="modal-card-body">{children}</section>
         <footer className="modal-card-foot">
-          {onEditClick  && (
-            <button
-              className="button is-primary"
-              onClick={onEditClick}
-            >
+          {onEditClick && (
+            <button className="button is-primary" onClick={onEditClick}>
               Edit
             </button>
           )}
           {onCloseClick && (
-            <button
-              className="button"
-              onClick={onCloseClick}
-            >
+            <button className="button" onClick={onCloseClick}>
               Close
             </button>
           )}
         </footer>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Modal
+export default Modal;

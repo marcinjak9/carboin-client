@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
+import { isLoaded, isEmpty } from 'react-redux-firebase'
 import md5 from 'md5'
 
-const AvatarS = styled.img`
+export const AvatarS = styled.img`
   background-color: #fff;
   padding: 4px;
   width: ${props => (props.size ? `${props.size}px` : '28px')};
@@ -13,13 +14,13 @@ const AvatarS = styled.img`
   border-radius: 50%;
 `
 
-const Avatar = ({ auth, size }) => {
+const Avatar = ({ profile, size }) => {
   let url = 'https://www.gravatar.com/avatar/'
-  if (auth && auth.user) {
-    if (auth.user.photoURL) {
-      url = auth.user.photoURL;
+  if (isLoaded(profile)) {
+    if (profile.avatar) {
+      url = profile.avatar;
     } else {
-      url = `https://www.gravatar.com/avatar/${md5(auth.user.email)}`
+      url = `https://www.gravatar.com/avatar/${md5(profile.email)}`
     }
   }
   return (
@@ -27,6 +28,6 @@ const Avatar = ({ auth, size }) => {
   )
 }
 
-const mapStateToProps = ({ firebase: { auth } }) => ({ auth })
+const mapStateToProps = ({ firebase: { profile } }) => ({ profile })
 
 export default connect(mapStateToProps)(Avatar)

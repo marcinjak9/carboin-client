@@ -1,23 +1,19 @@
-import 'isomorphic-fetch'
-import React , { useEffect } from 'react'
-import styled from 'styled-components'
-// import { Api } from '../utils/request'
-import Container from '../Components/Container'
-import Hero from '../Components/Hero';
-import FeedItem from '../Components/FeedItem';
-import Leaderboard from '../Components/Leaderboard';
+import "isomorphic-fetch";
+import React from "react";
+import styled from "styled-components";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import firestoreConnect from "react-redux-firebase/lib/firestoreConnect";
+import Container from "../Components/Container";
+import Hero from "../Components/Hero";
+import FeedItem from "../Components/FeedItem";
+import Leaderboard from "../Components/Leaderboard";
 
 const Section = styled.div`
   background-color: #f2f2f2;
-`
+`;
 
-const Home = () => {
-  useEffect(() => {
-    // async function fetchData() {
-    //   await Api().getFeed()
-    // }
-    // fetchData()
-  }, [])
+const Home = ({ feed }) => {
   return (
     <>
       <Hero
@@ -29,10 +25,14 @@ const Home = () => {
           <h1 className="title is-primary">Today</h1>
           <div className="columns">
             <div className="column is-two-thirds">
-              <FeedItem />
-              <FeedItem />
-              <FeedItem />
-              <FeedItem />
+              {feed &&
+                feed.map(f => (
+                  <FeedItem
+                    key={f.key}
+                    amount={f.amount}
+                    displayName={f.user.displayName}
+                  />
+                ))}
             </div>
             <div className="column">
               <Leaderboard />
@@ -41,7 +41,30 @@ const Home = () => {
         </Container>
       </Section>
     </>
-  )
-}
+  );
+};
 
-export default Home
+const populates = [{ child: "user", root: "profile" }];
+
+export default compose(
+  connect(state => {
+    return {
+      feed: state.firestore.ordered.feed
+        ? state.firestore.ordered.feed.map(f => ({
+            ...f,
+            user: state.firestore.data.profile[f.user] || null
+          }))
+        : [],
+      auth: state.firebase.auth
+    };
+  }),
+  firestoreConnect(props => {
+    console.log(props);
+    return [
+      {
+        collection: "feed",
+        populates
+      }
+    ];
+  })
+)(Home);

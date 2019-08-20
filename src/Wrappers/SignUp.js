@@ -9,11 +9,12 @@ import Container from '../Components/Container'
 const SignUp = ({ auth, firebase }) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [name, setName] = useState("")
 
   function submit() {
     firebase.createUser({
       email, password
-    }, { email })
+    }, { email, displayName: name, avatar: '' })
   }
   if (!isLoaded(auth)) {
     return <span>Loading...</span>
@@ -22,6 +23,11 @@ const SignUp = ({ auth, firebase }) => {
     return (
       <div className="section">
         <Container small>
+          <div className="field">
+            <div className="control">
+              <input className="input" type="text" placeholder="Name" value={name} onChange={({ target: { value }}) => setName(value)} />
+            </div>
+          </div>
           <div className="field">
             <div className="control">
               <input className="input" type="text" placeholder="Email" value={email} onChange={({ target: { value }}) => setEmail(value)} />

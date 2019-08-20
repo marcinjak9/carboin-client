@@ -1,25 +1,37 @@
-import React, { useState, useEffect } from 'react'
-import Container from '../Components/Container'
-import WalletsComp from '../Components/Wallets';
-// import { Api } from '../utils/request'
+import React from "react";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import firestoreConnect from "react-redux-firebase/lib/firestoreConnect";
+import withFirestore from "react-redux-firebase/lib/withFirestore";
+import Container from "../Components/Container";
+import WalletsComp from "../Components/Wallets";
+import CreateWallet from "../Components/CreateWallet";
 
-const Wallets = () => {
-  const [wallets, setWallets] = useState([])
-  useEffect(() => {
-    // async function fetchWallets() {
-    //   const w = await Api().getWallets()
-    //   setWallets(w)
-    // }
-    // fetchWallets()
-  }, wallets.length)
-
+const Wallets = ({ wallets, firestore, auth: { uid } }) => {
+  const deleteItem = async id => {
+    var r = window.confirm("Are you sure?");
+    if (r == true) {
+      const rs = await firestore.delete(`users/${uid}/wallets/${id}`);
+      console.log(rs);
+    }
+  };
   return (
     <section className="section">
       <Container small>
-        <WalletsComp wallets={wallets} />
+        <CreateWallet />
+        <WalletsComp wallets={wallets} onDelete={id => deleteItem(id)} />
       </Container>
     </section>
-  )
-}
+  );
+};
 
-export default Wallets
+export default compose(
+  withFirestore,
+  connect(({ firebase: { auth }, firestore }) => {
+    return {
+      wallets: firestore.ordered[`users/${auth.uid}/wallets`] || [],
+      auth: auth
+    };
+  }),
+  firestoreConnect(props => [{ collection: `users/${props.auth.uid}/wallets` }])
+)(Wallets);

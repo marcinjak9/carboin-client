@@ -1,44 +1,80 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux';
+import { compose } from 'redux'
+import withFirebase from 'react-redux-firebase/lib/withFirebase'
+import { isLoaded } from 'react-redux-firebase'
+import Container from '../../Components/Container';
+import AvatarUpload from '../../Components/AvatarUpload';
 // import { Api } from '../../utils/request'
 
 
 const Profile = ({
-  save,
-  auth: { user }
+  auth,
+  profile,
+  firebase
 }) => {
-  const dName = user ? user.displayName : ''
-  const pURL = user ? user.photoURL : ''
-  const [displayName, setDisplayName] = useState(dName)
-  const [photoURL, setPhotoURL] = useState(pURL)
+  const [displayName, setDisplayName] = useState(profile.displayName)
+  const [avatar, setAvatar] = useState(profile.avatar)
 
-  const uplodAvatar = async (file) => {
-    // const image = await Api().uploadAvatar(file)
-    // setPhotoURL(image)
+  useEffect(() => {
+    if (isLoaded(profile)) {
+      setDisplayName(profile.displayName)
+      setAvatar(profile.avatar)
+    }
+  }, [isLoaded(profile)])
+
+  const uploadAvatar = async () => {
+    const id = auth.uid;
+    try {
+      const ref = firebase.storage().ref().child(`${id}.${avatar.name.split('.').pop()}`)
+      const snapshot = await ref.put(avatar)
+      const url = await snapshot.ref.getDownloadURL()
+      return url
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const save = async () => {
+    try {
+      const url = await uploadAvatar()
+      firebase.updateProfile({
+        displayName,
+        avatar: url
+      })
+    } catch (e) {
+      console.log(e)
+    }
   }
   
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', width: 500, margin: '0 auto' }}>
-      <h2>Profile</h2>
-      <input type="text" value={displayName} onChange={e => setDisplayName(e.target.value)} />
-      <input type="file" onChange={e => uplodAvatar(e.target.files[0])}/>
-      <button onClick={() => save(displayName, photoURL)}>Save</button>
+    <div className="section">
+      <Container small>
+        <h2 className="title">Profile</h2>
+        <div className="field">
+          <div className="control">
+            <input className="input" type="text" placeholder="Name" value={displayName} onChange={({ target: { value }}) => setDisplayName(value)} />
+          </div>
+        </div>
+        <div className="field">
+          <div className="control">
+            <AvatarUpload
+              src={avatar}
+              onChange={a => setAvatar(a)}
+            />
+          </div>
+        </div>
+        <button className="button is-primary" onClick={save}>
+          Save
+        </button>
+      </Container>
     </div>
   )
 }
 
-const mapStateToProps = ({ firebase: { auth } }) => ({ auth })
+const mapStateToProps = ({ firebase: { auth, profile } }) => ({ auth, profile })
 
-
-
-const mapDispatchToProps = () => ({
-  save: async (name, photoURL) => {
-    // await Api().auth.currentUser.updateProfile({
-    //   displayName: name,
-    //   photoURL
-    // })
-    // await firebase.auth().curre
-  }
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile)
+export default compose(
+  withFirebase,
+  connect(mapStateToProps)
+)(Profile)

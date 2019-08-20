@@ -1,20 +1,18 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
-import Card from './Card'
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import Card from "./Card";
 
 const WalletCard = styled(Card)`
   .address {
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
   .progress {
-    margin-top: .5rem;
+    margin-top: 0.5rem;
   }
-`
+`;
 
-const SingleWallet = ({
-  name, address
-}) => {
+const SingleWallet = ({ name, address, id, onDelete }) => {
   return (
     <WalletCard>
       <div className="header">
@@ -22,7 +20,9 @@ const SingleWallet = ({
           <h2 className="title-name">{name}</h2>
         </div>
         <div className="right">
-          actions
+          <button className="button is-danger" onClick={() => onDelete(id)}>
+            Delete
+          </button>
         </div>
       </div>
       <div className="body">
@@ -32,15 +32,13 @@ const SingleWallet = ({
           {address}
         </p>
         <p className="has-text-weight-bold">Decarbonization:</p>
-        <progress
-          className="progress is-primary"
-          value="15"
-          max="100"
-        >15%</progress>
-        <Link to={`/wallet/${address}`}>See</Link>
+        <progress className="progress is-primary" value="15" max="100">
+          15%
+        </progress>
+        <Link to={`/wallet/${id}`}>See</Link>
       </div>
     </WalletCard>
-  )
-}
+  );
+};
 
-export default SingleWallet
+export default SingleWallet;
