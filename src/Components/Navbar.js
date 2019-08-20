@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 import { Link, withRouter } from "react-router-dom";
 import withFirebase from "react-redux-firebase/lib/withFirebase";
-import { ReactComponent as Logo } from "../images/LOGO_verde.svg";
-import Avatar from "./Avatar";
-import NavDropdown from "./NavDropdown";
+import { ReactComponent as Logo } from "images/LOGO_verde.svg";
+import Avatar from "Components/Avatar";
+import NavDropdown from "Components/NavDropdown";
 
 const NavWrapper = styled.nav`
   font-weight: 700;
@@ -36,7 +36,7 @@ const NAV_AVATAR = [
   { name: "Sign out", to: "/logout" }
 ];
 
-const Navigation = ({ location: { pathname }, auth, profile }) => {
+const Navigation = ({ auth, profile }) => {
   const [open, setOpen] = useState(false);
 
   const toggle = e => {

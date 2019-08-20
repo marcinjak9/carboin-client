@@ -1,7 +1,7 @@
 import React from "react";
 // import Resizer from 'react-image-file-resizer';
 import styled from "styled-components";
-import { AvatarS } from "./Avatar";
+import { AvatarS } from "Components/Avatar";
 
 const Uploader = styled.div`
   .file-input {
@@ -67,24 +67,6 @@ const AvatarUpload = ({ src, onChange }) => {
           <span>Click to edit</span>
         </div>
       </label>
-      {/* <div className="file">
-        <label className="file-label">
-          <input
-            className="file-input"
-            type="file"
-            name="avatar"
-            onChange={onFileChange}
-          />
-          <span className="file-cta">
-            <span className="file-icon">
-              <i className="fas fa-upload"></i>
-            </span>
-            <span className="file-label">
-              Choose an image…
-            </span>
-          </span>
-        </label>
-      </div> */}
     </Uploader>
   );
 };

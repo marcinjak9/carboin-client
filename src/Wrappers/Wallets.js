@@ -3,16 +3,15 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import firestoreConnect from "react-redux-firebase/lib/firestoreConnect";
 import withFirestore from "react-redux-firebase/lib/withFirestore";
-import Container from "../Components/Container";
-import WalletsComp from "../Components/Wallets";
-import CreateWallet from "../Components/CreateWallet";
+import Container from "Components/Container";
+import WalletsComp from "Components/Wallets";
+import CreateWallet from "Components/CreateWallet";
 
 const Wallets = ({ wallets, firestore, auth: { uid } }) => {
   const deleteItem = async id => {
     var r = window.confirm("Are you sure?");
-    if (r == true) {
-      const rs = await firestore.delete(`users/${uid}/wallets/${id}`);
-      console.log(rs);
+    if (r === true) {
+      await firestore.delete(`users/${uid}/wallets/${id}`);
     }
   };
   return (

@@ -1,6 +1,6 @@
 import React from "react";
-import Card from "./Card";
-import Avatar from "./Avatar";
+import Card from "Components/Card";
+// import Avatar from "Components/Avatar";
 
 const Leaderboard = () => {
   return (

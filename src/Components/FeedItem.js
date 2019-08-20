@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Card from "./Card";
-import { AvatarS } from "./Avatar";
+import Card from "Components/Card";
+import { AvatarS } from "Components/Avatar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 
@@ -22,7 +22,10 @@ const FeedItem = ({ amount, user }) => {
               <h2 className="title-name">{user.displayName}</h2>
             </Link>
             <p className="has-text-weight-bold is-prumary has-text-primary">
-              🌱 20
+              <span role="img" aria-label="leaf">
+                🌱
+              </span>{" "}
+              20
             </p>
           </div>
         </div>

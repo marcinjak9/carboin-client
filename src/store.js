@@ -1,12 +1,12 @@
-import { createStore, compose, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import { createStore, compose, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import firebase from "firebase/app";
+import "firebase/auth";
 // import 'firebase/database'
-import 'firebase/storage' // <- needed if using storage
-import 'firebase/firestore' // <- needed if using firestore
-import { createFirestoreInstance } from 'redux-firestore' // <- needed if using firestore
-import reducers from './reducers';
+import "firebase/storage"; // <- needed if using storage
+import "firebase/firestore"; // <- needed if using firestore
+import { createFirestoreInstance } from "redux-firestore"; // <- needed if using firestore
+import reducers from "reducers";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -16,30 +16,28 @@ const firebaseConfig = {
   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_FIREBASE_APP_ID
-}
+};
 
 // react-redux-firebase config
 const rrfConfig = {
-  userProfile: 'profile',
+  userProfile: "profile",
   useFirestoreForProfile: true,
-  logErrors: true,
-}
-firebase.initializeApp(firebaseConfig)
-firebase.firestore() // <- needed if using firestore
+  logErrors: true
+};
+firebase.initializeApp(firebaseConfig);
+firebase.firestore(); // <- needed if using firestore
 
 // const createStoreWithFirebase = compose(
 //   reactReduxFirebase(firebase, rrfConfig), // firebase instance as first argument
 //   reduxFirestore(firebase) // <- needed if using firestore
 // )(createStore)
 
-
-
 const composeEnhancers =
-  typeof window === 'object' &&
-  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?   
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-      // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
-    }) : compose;
+  typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+        // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+      })
+    : compose;
 
 const enhancer = composeEnhancers(
   applyMiddleware(thunk)
@@ -52,6 +50,6 @@ export const rrfProps = {
   config: rrfConfig,
   dispatch: store.dispatch,
   createFirestoreInstance // <- needed if using firestore
-}
+};
 
 export default store;

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import withFirebase from "react-redux-firebase/lib/withFirebase";
-import { isLoaded } from "react-redux-firebase";
 import classNames from "classnames";
 import { toast } from "react-toastify";
 import Container from "../../Components/Container";
@@ -12,26 +11,22 @@ import Textarea from "../../Components/Textarea";
 import Checkbox from "../../Components/Checkbox";
 
 const Profile = ({ auth, profile, firebase }) => {
-  const [displayName, setDisplayName] = useState(profile.displayName || "");
-  const [avatar, setAvatar] = useState(profile.avatar || "");
-  const [bio, setBio] = useState(profile.bio || "");
-  const [publicProfile, setPublicProfile] = useState(
-    profile.publicProfile || true
-  );
-  const [newsletter, setNewsletter] = useState(profile.newsletter || false);
-  const [reminders, setReminders] = useState(profile.reminders || false);
+  const [displayName, setDisplayName] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const [bio, setBio] = useState("");
+  const [publicProfile, setPublicProfile] = useState(true);
+  const [newsletter, setNewsletter] = useState(false);
+  const [reminders, setReminders] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (isLoaded(profile)) {
-      setDisplayName(profile.displayName || "");
-      setAvatar(profile.avatar || "");
-      setBio(profile.bio || "");
-      setPublicProfile(profile.publicProfile);
-      setNewsletter(profile.newsletter);
-      setReminders(profile.reminders);
-    }
-  }, [isLoaded(profile)]);
+    setDisplayName(profile.displayName || "");
+    setAvatar(profile.avatar || "");
+    setBio(profile.bio || "");
+    setPublicProfile(profile.publicProfile);
+    setNewsletter(profile.newsletter);
+    setReminders(profile.reminders);
+  }, [profile]);
 
   const uploadAvatar = async () => {
     const id = auth.uid;
@@ -115,6 +110,7 @@ const Profile = ({ auth, profile, firebase }) => {
                     style={{ fontSize: ".8rem" }}
                     href={`http://localhost:3000/u/${auth.uid}`}
                     target="_blank"
+                    rel="noopener noreferrer"
                   >{`http://localhost:3000/u/${auth.uid}`}</a>
                 </p>
               </div>

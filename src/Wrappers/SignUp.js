@@ -5,9 +5,9 @@ import { compose } from "redux";
 import { Redirect, Link } from "react-router-dom";
 import withFirebase from "react-redux-firebase/lib/withFirebase";
 import { isLoaded, isEmpty } from "react-redux-firebase";
-import Container from "../Components/Container";
-import Input from "../Components/Input";
-import { ReactComponent as Logo } from "../images/LOGO_verde.svg";
+import Container from "Components/Container";
+import Input from "Components/Input";
+import { ReactComponent as Logo } from "images/LOGO_verde.svg";
 
 const SignUp = ({ auth, firebase }) => {
   const [email, setEmail] = useState("");

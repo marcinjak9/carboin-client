@@ -1,6 +1,6 @@
 import React from "react";
 // import styled from 'styled-components'
-import SingleWallet from "./SingleWallet";
+import SingleWallet from "Components/SingleWallet";
 
 const Wallets = ({ wallets, onDelete }) => {
   return (

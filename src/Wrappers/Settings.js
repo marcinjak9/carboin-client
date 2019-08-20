@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import withFirebase from "react-redux-firebase/lib/withFirebase";
-import Container from "../Components/Container";
-import Input from "../Components/Input";
+import Container from "Components/Container";
+import Input from "Components/Input";
 import { toast } from "react-toastify";
 
 const Setting = ({ auth, firebase }) => {
@@ -18,14 +18,11 @@ const Setting = ({ auth, firebase }) => {
       return setPasswordError(true);
     }
     try {
-      console.log(auth.email);
       await firebase.login({ email: auth.email, password: oldPassword });
-      const d = await firebase.auth().currentUser.updatePassword(newPassword);
-      console.log(d);
+      await firebase.auth().currentUser.updatePassword(newPassword);
       setPasswordError(false);
       toast("Password updated!");
     } catch (error) {
-      console.log(error);
       setPasswordError(error.message);
     }
   };
@@ -34,12 +31,10 @@ const Setting = ({ auth, firebase }) => {
       return setEmailError(true);
     }
     try {
-      const d = await firebase.updateEmail(newEmail);
-      console.log(d);
+      await firebase.updateEmail(newEmail);
       setEmailError(false);
       toast("Email changed!");
     } catch (error) {
-      console.log(error);
       setEmailError(error.message);
     }
   };

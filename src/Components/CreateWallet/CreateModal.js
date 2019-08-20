@@ -3,7 +3,7 @@ import generate from "project-name-generator";
 import withFirestore from "react-redux-firebase/lib/withFirestore";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import Modal from "../Modal";
+import Modal from "Components/Modal";
 
 const CreateModal = ({ onClose, open, firestore: { add, set }, auth }) => {
   const [address, setAddress] = useState("");
@@ -33,7 +33,7 @@ const CreateModal = ({ onClose, open, firestore: { add, set }, auth }) => {
         address,
         name
       });
-      v.txs.map(t => {
+      v.txs.forEach(t => {
         set(`users/${auth.uid}/transactions/${t.hash}`, {
           hash: t.hash,
           walletId: r.id,

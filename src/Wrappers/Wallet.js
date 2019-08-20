@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Container from "../Components/Container";
 import Transaction from "../Components/Transaction";
-import TotalDonaton from "../Components/TotalDonaton";
 import WalletHead from "../Components/WalletHead";
 import Modal from "../Components/Modal";
 import { compose } from "redux";
@@ -16,13 +15,11 @@ function Wallet({
   match: {
     params: { id }
   },
-  firestore: { update, set },
+  firestore: { update },
   auth
 }) {
-  const handleSelect = id => {
-    console.log(update);
+  const handleSelect = id =>
     update(`users/${auth.uid}/transactions/${id}`, { selected: true });
-  };
 
   if (!wallet) {
     return null;
@@ -49,13 +46,12 @@ function Wallet({
             select={handleSelect}
           />
         ))}
-        {/* <TotalDonaton transactions={transactions} /> */}
       </Container>
     </Modal>
   );
 }
 
-const mapStateToProps = ({ firebase: { auth }, firestore }, props) => ({
+const mapStateToProps = ({ firebase: { auth }, firestore }) => ({
   auth,
   f: firestore,
   wallet: firestore.data.wallet || null,

@@ -23,7 +23,12 @@ const LoadingScreen = () => {
     <Loading>
       <div className="inner">
         <FontAwesomeIcon icon={faSpinner} spin size="3x" color="#82277c" />
-        <p>Getting ready to save the world 🌲</p>
+        <p>
+          Getting ready to save the world{" "}
+          <span role="img" aria-label="tree">
+            🌲
+          </span>
+        </p>
       </div>
     </Loading>
   );

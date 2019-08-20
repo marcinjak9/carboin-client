@@ -2,9 +2,9 @@ import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import firestoreConnect from "react-redux-firebase/lib/firestoreConnect";
-import Container from "../Components/Container";
-import { AvatarS } from "../Components/Avatar";
-import LoadingScreen from "../Components/LoadingScreen";
+import Container from "Components/Container";
+import { AvatarS } from "Components/Avatar";
+import LoadingScreen from "Components/LoadingScreen";
 
 const PublicProfile = ({ user }) => {
   if (!user) {

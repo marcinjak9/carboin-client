@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Card from "./Card";
+import Card from "Components/Card";
 
 const CardStyled = styled(Card)`
   border: ${props => (props.selected ? "1px solid red" : "none")};

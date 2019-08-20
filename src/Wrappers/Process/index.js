@@ -1,100 +1,23 @@
 import React, { useState } from "react";
 import { compose } from "redux";
-import styled from "styled-components";
 import withFirestore from "react-redux-firebase/lib/withFirestore";
-import Slider from "rc-slider";
 import { connect } from "react-redux";
-import CoinbaseCommerceButton from "react-coinbase-commerce";
+import classNames from "classnames";
+// import CoinbaseCommerceButton from "react-coinbase-commerce";
 import "react-coinbase-commerce/dist/coinbase-commerce-button.css";
 import "rc-slider/assets/index.css";
-import { ReactComponent as Bitcoin } from "../images/bitcoin.svg";
-import { ReactComponent as Forest } from "../images/forest.svg";
-import { ReactComponent as Carbon } from "../images/carbon.svg";
-import Container from "../Components/Container";
+import { ReactComponent as Bitcoin } from "images/bitcoin.svg";
+import { ReactComponent as Forest } from "images/forest.svg";
+import { ReactComponent as Carbon } from "images/carbon.svg";
+import Container from "Components/Container";
+import { Counter, Graphics, StyledSlider, Recap } from "./DecarbStyled";
 
 const MIN = 1;
 const MAX = 100;
 
-const Graphics = styled.div`
-  margin-top: 4rem !important;
-  margin-bottom: 4rem !important;
-  svg {
-    height: ${props => (props.size ? 100 + props.size / 2 + "px" : "150px")};
-    width: ${props => (props.size ? 100 + props.size / 2 + "px" : "150px")};
-  }
-  h3 {
-    font-weight: 700;
-    margin-top: 1rem;
-  }
-  h4 {
-    font-weight: 700;
-  }
-`;
-
-const Counter = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1rem;
-  h3 {
-    font-size: 2rem;
-    margin: 0 1rem;
-    font-weight: 700;
-  }
-
-  .button {
-    font-weight: 700;
-    height: 40px;
-    width: 40px;
-  }
-`;
-
-const StyledSlider = styled(Slider)`
-  .rc-slider-rail {
-    height: 10px;
-  }
-  .rc-slider-track {
-    height: 10px;
-    background-color: #94c53e;
-  }
-
-  .rc-slider-step {
-    height: 10px;
-  }
-
-  .rc-slider-handle {
-    border: solid 5px #94c53e;
-    width: 24px;
-    height: 24px;
-    margin-top: -7px;
-    &:active,
-    &:hover,
-    &:focus {
-      border-color: #94c53e;
-      box-shadow: 0 0 0 5px #c3ea7d;
-    }
-  }
-`;
-
-const Recap = styled.div`
-  padding: 2rem;
-  background-color: #115757;
-  color: #fff;
-  border-radius: 6px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-
-  h3 {
-    font-weight: 700;
-    color: #fff;
-    font-size: 1.3rem;
-  }
-`;
-
 const Process = ({ auth, firestore }) => {
   const [value, setValue] = useState(3);
-  const [code, setCode] = useState(null);
+  // const [code, setCode] = useState(null);
   const [loading, setLoading] = useState(false);
   const modify = by => {
     if (value + by >= MIN && value + by <= MAX) {
@@ -102,23 +25,23 @@ const Process = ({ auth, firestore }) => {
     }
   };
 
-  const getPaymentUrl = async () => {
-    setLoading(true);
-    const data = await fetch(
-      "http://localhost:5001/carboin-e6b7d/us-central1/helloWorld",
-      {
-        method: "POST",
-        headers: {
-          "X-Api-Key": auth.stsTokenManager.accessToken,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ amount: value * 2.8 })
-      }
-    );
-    const json = await data.json();
-    setLoading(false);
-    setCode(json.data.code);
-  };
+  // const getPaymentUrl = async () => {
+  //   setLoading(true);
+  //   const data = await fetch(
+  //     "http://localhost:5001/carboin-e6b7d/us-central1/helloWorld",
+  //     {
+  //       method: "POST",
+  //       headers: {
+  //         "X-Api-Key": auth.stsTokenManager.accessToken,
+  //         "Content-Type": "application/json"
+  //       },
+  //       body: JSON.stringify({ amount: value * 2.8 })
+  //     }
+  //   );
+  //   const json = await data.json();
+  //   setLoading(false);
+  //   setCode(json.data.code);
+  // };
 
   const createDonationBeta = async () => {
     setLoading(true);
@@ -126,7 +49,7 @@ const Process = ({ auth, firestore }) => {
       await firestore.add("feed", {
         amount: value,
         user: auth.uid,
-        createdAt: new Date().toISOString()
+        createdAt: firestore.FieldValue.serverTimestamp()
       });
       setLoading(false);
     } catch (error) {
@@ -196,7 +119,12 @@ const Process = ({ auth, firestore }) => {
               chargeId={code}
             />
           )} */}
-          <button className="button is-primary" onClick={createDonationBeta}>
+          <button
+            className={classNames("button is-primary", {
+              "is-loading": loading
+            })}
+            onClick={createDonationBeta}
+          >
             Create Donation
           </button>
         </Recap>

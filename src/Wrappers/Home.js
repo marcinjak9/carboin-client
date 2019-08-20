@@ -1,13 +1,12 @@
-import "isomorphic-fetch";
 import React from "react";
 import styled from "styled-components";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import firestoreConnect from "react-redux-firebase/lib/firestoreConnect";
-import Container from "../Components/Container";
-import Hero from "../Components/Hero";
-import FeedItem from "../Components/FeedItem";
-import Leaderboard from "../Components/Leaderboard";
+import Container from "Components/Container";
+import Hero from "Components/Hero";
+import FeedItem from "Components/FeedItem";
+import Leaderboard from "Components/Leaderboard";
 
 const Section = styled.div`
   background-color: #f2f2f2;
@@ -29,7 +28,7 @@ const Home = ({ feed }) => {
                 feed
                   .reverse()
                   .map(f => (
-                    <FeedItem key={f.key} amount={f.amount} user={f.user} />
+                    <FeedItem key={f.id} amount={f.amount} user={f.user} />
                   ))}
             </div>
             <div className="column">
@@ -56,13 +55,10 @@ export default compose(
       auth: state.firebase.auth
     };
   }),
-  firestoreConnect(props => {
-    console.log(props);
-    return [
-      {
-        collection: "feed",
-        populates
-      }
-    ];
-  })
+  firestoreConnect(() => [
+    {
+      collection: "feed",
+      populates
+    }
+  ])
 )(Home);

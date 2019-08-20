@@ -3,26 +3,26 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Reset } from "styled-reset";
 import { Provider } from "react-redux";
 import ReactReduxFirebaseProvider from "react-redux-firebase/lib/ReactReduxFirebaseProvider";
-import Home from "./Wrappers/Home";
-import Login from "./Wrappers/Login";
-import Navbar from "./Components/Navbar";
-import Wallet from "./Wrappers/Wallet";
-import Wallets from "./Wrappers/Wallets";
+import Home from "Wrappers/Home";
+import Login from "Wrappers/Login";
+import Navbar from "Components/Navbar";
+import Wallet from "Wrappers/Wallet";
+import Wallets from "Wrappers/Wallets";
 
-import store, { rrfProps } from "./store";
-import Profile from "./Wrappers/Profile";
-import "./styles/app.scss";
+import store, { rrfProps } from "store";
+import Profile from "Wrappers/Profile";
+import "styles/app.scss";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import Footer from "./Components/Footer";
-import SignUp from "./Wrappers/SignUp";
-import Process from "./Wrappers/Process";
-import Settings from "./Wrappers/Settings";
-import Logout from "./Wrappers/Logout";
-import { UserIsAuthenticated } from "./Components/AuthUtilis";
-import History from "./Wrappers/History";
-import Projects from "./Wrappers/Projects";
-import PublicProfile from "./Wrappers/PublicProfile";
+import Footer from "Components/Footer";
+import SignUp from "Wrappers/SignUp";
+import Process from "Wrappers/Process";
+import Settings from "Wrappers/Settings";
+import Logout from "Wrappers/Logout";
+import { UserIsAuthenticated } from "Components/AuthUtilis";
+import History from "Wrappers/History";
+import Projects from "Wrappers/Projects";
+import PublicProfile from "Wrappers/PublicProfile";
 
 const App = () => {
   return (

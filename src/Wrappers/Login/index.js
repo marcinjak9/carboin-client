@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Redirect, Link } from "react-router-dom";
 import { compose } from "redux";
 import withFirebase from "react-redux-firebase/lib/withFirebase";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 import classNames from "classnames";
-import Container from "../../Components/Container";
-import Input from "../../Components/Input";
-import { ReactComponent as Logo } from "../../images/LOGO_verde.svg";
+import Container from "Components/Container";
+import Input from "Components/Input";
+import { ReactComponent as Logo } from "images/LOGO_verde.svg";
 
 const Login = props => {
   const { auth, firebase } = props;
@@ -66,7 +66,7 @@ const Login = props => {
             Login
           </button>
           <div className="has-text-centered" style={{ marginTop: "2rem" }}>
-            <Link to="/signup">Don't have an account?</Link>
+            <Link to="/signup">Don{"'"}t have an account?</Link>
           </div>
         </Container>
       </div>
@@ -81,5 +81,3 @@ export default compose(
   withFirebase,
   connect(mapStateToProps)
 )(Login);
-
-// export default enhance(Login)
