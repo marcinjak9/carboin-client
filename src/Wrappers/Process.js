@@ -134,7 +134,7 @@ const Process = ({ auth, firestore }) => {
   };
   return (
     <section className="section">
-      <Container small>
+      <Container small card>
         <h2 className="title">Decarbonize</h2>
         <h3 className="subtitle">
           Select the amount of transactions to decarbonize

@@ -11,8 +11,8 @@ import { ReactComponent as Logo } from "../../images/LOGO_verde.svg";
 
 const Login = props => {
   const { auth, firebase } = props;
-  const [email, setEmail] = useState("marcinjak9@gmail.com");
-  const [password, setPassword] = useState("password");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
