@@ -44,13 +44,13 @@ const AvatarUpload = ({ src, onChange }) => {
     onChange(e.target.files[0]);
   };
   const renderSrc = () => {
-    if (typeof src === "string") {
+    if (typeof src === "string" && src) {
       return src;
     }
     if (typeof src === "object") {
       return URL.createObjectURL(src);
     }
-    return "";
+    return "https://www.gravatar.com/avatar/";
   };
   return (
     <Uploader>

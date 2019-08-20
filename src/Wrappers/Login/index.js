@@ -1,77 +1,82 @@
-import React, { useState, useEffect } from 'react'
-import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
-import { compose } from 'redux'
-import withFirebase from 'react-redux-firebase/lib/withFirebase'
-import { isLoaded, isEmpty } from 'react-redux-firebase'
-import { signInLoading, signIn, signInError } from './actions'
-import Container from '../../Components/Container';
-// import { Api } from '../../utils/request'
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { compose } from "redux";
+import withFirebase from "react-redux-firebase/lib/withFirebase";
+import { isLoaded, isEmpty } from "react-redux-firebase";
+import classNames from "classnames";
+import Container from "../../Components/Container";
+import Input from "../../Components/Input";
+import { ReactComponent as Logo } from "../../images/LOGO_verde.svg";
 
-const Login = (props) => {
-  const { handleLogin, auth, firebase } = props
-  const [email, setEmail] = useState("marcinjak9@gmail.com")
-  const [password, setPassword] = useState("password")
-  useEffect(() => {
-    // console.log(firebase.auth().currentUser)
-    // firebase.auth().currentUser.getIdToken()
-    //   .then(t => console.log(t))
-    //   .catch(e => console.log(e))
-  },[])
+const Login = props => {
+  const { auth, firebase } = props;
+  const [email, setEmail] = useState("marcinjak9@gmail.com");
+  const [password, setPassword] = useState("password");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  const submit = (e) => {
-    e.preventDefault()
-    // handleLogin(email, password)
-    firebase.login({ email, password })
-  }
-  
+  const submit = async e => {
+    e.preventDefault();
+    setLoading(true);
+    setError(false);
+    try {
+      await firebase.login({ email, password });
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(true);
+    }
+  };
+
   if (!isLoaded(auth)) {
-    return <span>Loading...</span>
+    return <span>Loading...</span>;
   }
   if (isEmpty(auth)) {
     return (
       <div className="section">
-        <Container small>
-          <div className="field">
-            <div className="control">
-              <input className="input" type="text" placeholder="Email" value={email} onChange={({ target: { value }}) => setEmail(value)} />
-            </div>
-          </div>
-          <div className="field">
-            <div className="control">
-              <input className="input" type="password" placeholder="Password" value={password} onChange={({ target: { value }}) => setPassword(value)} />
-            </div>
-          </div>
-          <button className="button is-primary" onClick={submit}>
+        <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+          <Logo width={150} />
+        </div>
+        <Container small card>
+          <h2 className="title">Login</h2>
+          <Input
+            label="Email"
+            value={email}
+            onChange={({ target: { value } }) => setEmail(value)}
+            type="email"
+            placeholder="Email"
+            error={error ? "something went wrong" : false}
+          />
+          <Input
+            label="Password"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={({ target: { value } }) => setPassword(value)}
+            error={error ? "something went wrong" : false}
+          />
+
+          <button
+            className={classNames("button is-primary is-fullwidth", {
+              "is-loading": loading
+            })}
+            onClick={submit}
+          >
             Login
           </button>
         </Container>
       </div>
-    )
+    );
   }
-  return <Redirect to="/" />
-}
+  return <Redirect to="/" />;
+};
 
-const mapStateToProps = ({ firebase: { auth } }) => ({ auth })
-
-const mapDispatchToProps = dispatch => {
-  return {
-    handleLogin: async (email, password) => {
-      // dispatch(signInLoading())
-      // try {
-      //   const { user } = await Api().auth.signInWithEmailAndPassword(email, password)
-      //   dispatch(signIn(user))
-      // } catch (error) {
-      //   console.log(error)
-      //   dispatch(signInError(error))
-      // }
-    }
-  }
-}
+const mapStateToProps = ({ firebase: { auth } }) => ({ auth });
 
 export default compose(
   withFirebase,
-  connect(mapStateToProps, mapDispatchToProps)
-)(Login)
+  connect(mapStateToProps)
+)(Login);
 
 // export default enhance(Login)

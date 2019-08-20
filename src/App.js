@@ -8,7 +8,6 @@ import Login from "./Wrappers/Login";
 import Navbar from "./Components/Navbar";
 import Wallet from "./Wrappers/Wallet";
 import Wallets from "./Wrappers/Wallets";
-import PrivateRoute from "./Components/PrivateRoute";
 
 import store, { rrfProps } from "./store";
 import Profile from "./Wrappers/Profile";
@@ -20,28 +19,34 @@ import SignUp from "./Wrappers/SignUp";
 import Process from "./Wrappers/Process";
 import Settings from "./Wrappers/Settings";
 import Logout from "./Wrappers/Logout";
-
-// export const firebase = new Firebase()
+import { UserIsAuthenticated } from "./Components/AuthUtilis";
 
 const App = () => {
   return (
     <Provider store={store}>
       <ReactReduxFirebaseProvider {...rrfProps}>
         <Reset />
-        {/* <Auth /> */}
         <Router>
           <Navbar />
           <div style={{ minHeight: "80vh" }}>
-            <PrivateRoute path="/" exact component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={SignUp} />
-            <PrivateRoute path="/logout" component={Logout} />
-            <PrivateRoute path="/process" component={Process} />
-            <PrivateRoute path="/wallet" component={Wallets} />
-            <PrivateRoute path="/wallet/:id" exact component={Wallet} />
-            <PrivateRoute path="/wallet/:id/edit" exact component={Wallet} />
-            <PrivateRoute path="/profile" component={Profile} />
-            <PrivateRoute path="/settings" component={Settings} />
+            <Route path="/" exact component={UserIsAuthenticated(Home)} />
+            <Route path="/logout" component={UserIsAuthenticated(Logout)} />
+            <Route path="/process" component={UserIsAuthenticated(Process)} />
+            <Route path="/wallet" component={UserIsAuthenticated(Wallets)} />
+            <Route
+              path="/wallet/:id"
+              exact
+              component={UserIsAuthenticated(Wallet)}
+            />
+            <Route
+              path="/wallet/:id/edit"
+              exact
+              component={UserIsAuthenticated(Wallet)}
+            />
+            <Route path="/profile" component={UserIsAuthenticated(Profile)} />
+            <Route path="/settings" component={UserIsAuthenticated(Settings)} />
           </div>
           <Footer />
         </Router>

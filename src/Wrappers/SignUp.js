@@ -1,32 +1,44 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import classNames from "classnames";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import withFirebase from "react-redux-firebase/lib/withFirebase";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 import Container from "../Components/Container";
+import Input from "../Components/Input";
+import { ReactComponent as Logo } from "../images/LOGO_verde.svg";
 
 const SignUp = ({ auth, firebase }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  function submit() {
-    firebase.createUser(
-      {
-        email,
-        password
-      },
-      {
-        email,
-        displayName: name,
-        avatar: "",
-        bio: "",
-        publicProfile: true,
-        newsletter: true,
-        reminders: true
-      }
-    );
+  async function submit() {
+    setLoading(true);
+    try {
+      await firebase.createUser(
+        {
+          email,
+          password
+        },
+        {
+          email,
+          displayName: name,
+          avatar: "",
+          bio: "",
+          publicProfile: true,
+          newsletter: true,
+          reminders: true
+        }
+      );
+      setLoading(false);
+    } catch (error) {
+      setError(error);
+      setLoading(false);
+    }
   }
   if (!isLoaded(auth)) {
     return <span>Loading...</span>;
@@ -34,42 +46,43 @@ const SignUp = ({ auth, firebase }) => {
   if (isEmpty(auth)) {
     return (
       <div className="section">
-        <Container small>
-          <div className="field">
-            <div className="control">
-              <input
-                className="input"
-                type="text"
-                placeholder="Name"
-                value={name}
-                onChange={({ target: { value } }) => setName(value)}
-              />
-            </div>
-          </div>
-          <div className="field">
-            <div className="control">
-              <input
-                className="input"
-                type="text"
-                placeholder="Email"
-                value={email}
-                onChange={({ target: { value } }) => setEmail(value)}
-              />
-            </div>
-          </div>
-          <div className="field">
-            <div className="control">
-              <input
-                className="input"
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={({ target: { value } }) => setPassword(value)}
-              />
-            </div>
-          </div>
-          <button className="button is-primary" onClick={submit}>
-            Sign up
+        <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+          <Logo width={150} />
+        </div>
+        <Container small card>
+          <h2 className="title">Signup now</h2>
+          <Input
+            label="Name"
+            value={name}
+            onChange={({ target: { value } }) => setName(value)}
+            type="text"
+            placeholder="Name"
+            error={error ? "something went wrong" : false}
+          />
+          <Input
+            label="Email"
+            value={email}
+            onChange={({ target: { value } }) => setEmail(value)}
+            type="email"
+            placeholder="Email"
+            error={error ? "something went wrong" : false}
+          />
+          <Input
+            label="Password"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={({ target: { value } }) => setPassword(value)}
+            error={error ? "something went wrong" : false}
+          />
+
+          <button
+            className={classNames("button is-primary is-fullwidth", {
+              "is-loading": loading
+            })}
+            onClick={submit}
+          >
+            Sign Up
           </button>
         </Container>
       </div>
