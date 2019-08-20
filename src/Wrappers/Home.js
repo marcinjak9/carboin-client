@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import firestoreConnect from "react-redux-firebase/lib/firestoreConnect";
+import moment from "moment";
 import Container from "Components/Container";
 import Hero from "Components/Hero";
 import FeedItem from "Components/FeedItem";
@@ -25,11 +26,14 @@ const Home = ({ feed }) => {
           <div className="columns">
             <div className="column is-two-thirds">
               {feed &&
-                feed
-                  .reverse()
-                  .map(f => (
-                    <FeedItem key={f.id} amount={f.amount} user={f.user} />
-                  ))}
+                feed.map(f => (
+                  <FeedItem
+                    key={f.id}
+                    amount={f.amount}
+                    user={f.user}
+                    createdAt={moment(f.createdAt.toDate()).fromNow()}
+                  />
+                ))}
             </div>
             <div className="column">
               <Leaderboard />
@@ -59,7 +63,7 @@ export default compose(
     {
       collection: "feed",
       populates,
-      orderBy: ["createdAt"]
+      orderBy: ["createdAt", "desc"]
     }
   ])
 )(Home);

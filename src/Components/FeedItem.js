@@ -5,7 +5,7 @@ import { AvatarS } from "Components/Avatar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 
-const FeedItem = ({ amount, user }) => {
+const FeedItem = ({ amount, user, createdAt }) => {
   const tweet = `${
     user.displayName
   } has planted ${amount} trees throu %23carboin regenerating ${amount} %23bitcoin transactions! Try it now https://carboin.org`;
@@ -31,12 +31,17 @@ const FeedItem = ({ amount, user }) => {
         </div>
 
         <div className="right">
+          <div className="is-size-7 has-text-weight-bold">{createdAt}</div>
+
           <a
             href={`https://twitter.com/intent/tweet?text=${tweet}`}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FontAwesomeIcon icon={faTwitter} />
+            <FontAwesomeIcon
+              icon={faTwitter}
+              style={{ float: "right", marginTop: ".5rem" }}
+            />
           </a>
         </div>
       </div>
