@@ -53,7 +53,8 @@ export default compose(
   firestoreConnect(props => [
     {
       collection: "feed",
-      where: ["user", "==", props.auth.uid]
+      where: ["user", "==", props.auth.uid],
+      orderBy: ["createdAt"]
     }
   ])
 )(History);

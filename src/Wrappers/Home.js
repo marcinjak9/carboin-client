@@ -58,7 +58,8 @@ export default compose(
   firestoreConnect(() => [
     {
       collection: "feed",
-      populates
+      populates,
+      orderBy: ["createdAt"]
     }
   ])
 )(Home);

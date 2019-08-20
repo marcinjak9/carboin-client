@@ -25,7 +25,7 @@ const FeedItem = ({ amount, user }) => {
               <span role="img" aria-label="leaf">
                 🌱
               </span>{" "}
-              20
+              {user.score || 0}
             </p>
           </div>
         </div>

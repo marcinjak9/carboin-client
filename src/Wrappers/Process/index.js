@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { compose } from "redux";
 import withFirestore from "react-redux-firebase/lib/withFirestore";
+import withFirebase from "react-redux-firebase/lib/withFirebase";
 import { connect } from "react-redux";
 import classNames from "classnames";
 // import CoinbaseCommerceButton from "react-coinbase-commerce";
@@ -15,7 +16,7 @@ import { Counter, Graphics, StyledSlider, Recap } from "./DecarbStyled";
 const MIN = 1;
 const MAX = 100;
 
-const Process = ({ auth, firestore }) => {
+const Process = ({ auth, firestore, firebase, profile }) => {
   const [value, setValue] = useState(3);
   // const [code, setCode] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -50,6 +51,10 @@ const Process = ({ auth, firestore }) => {
         amount: value,
         user: auth.uid,
         createdAt: firestore.FieldValue.serverTimestamp()
+      });
+      const current = profile.score || 0;
+      await firebase.updateProfile({
+        score: current + value
       });
       setLoading(false);
     } catch (error) {
@@ -134,6 +139,7 @@ const Process = ({ auth, firestore }) => {
 };
 
 export default compose(
+  withFirebase,
   withFirestore,
-  connect(({ firebase: { auth } }) => ({ auth }))
+  connect(({ firebase: { auth, profile } }) => ({ auth, profile }))
 )(Process);

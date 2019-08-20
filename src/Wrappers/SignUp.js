@@ -35,7 +35,8 @@ const SignUp = ({ auth, firebase }) => {
           bio: "",
           publicProfile: true,
           newsletter: true,
-          reminders: true
+          reminders: true,
+          score: 0
         }
       );
       setLoading(false);
