@@ -12,6 +12,7 @@ import { ReactComponent as Logo } from "images/LOGO_verde.svg";
 const SignUp = ({ auth, firebase }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -19,6 +20,9 @@ const SignUp = ({ auth, firebase }) => {
   async function submit() {
     setLoading(true);
     try {
+      if (password !== confirmPassword) {
+        throw new Error();
+      }
       await firebase.createUser(
         {
           email,
@@ -51,39 +55,49 @@ const SignUp = ({ auth, firebase }) => {
         </div>
         <Container small card>
           <h2 className="title">Signup now</h2>
-          <Input
-            label="Name"
-            value={name}
-            onChange={({ target: { value } }) => setName(value)}
-            type="text"
-            placeholder="Name"
-            error={error ? "something went wrong" : false}
-          />
-          <Input
-            label="Email"
-            value={email}
-            onChange={({ target: { value } }) => setEmail(value)}
-            type="email"
-            placeholder="Email"
-            error={error ? "something went wrong" : false}
-          />
-          <Input
-            label="Password"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={({ target: { value } }) => setPassword(value)}
-            error={error ? "something went wrong" : false}
-          />
+          <form onSubmit={e => e.preventDefault()}>
+            <Input
+              label="Name"
+              value={name}
+              onChange={({ target: { value } }) => setName(value)}
+              type="text"
+              placeholder="Name"
+              error={error ? "something went wrong" : false}
+            />
+            <Input
+              label="Email"
+              value={email}
+              onChange={({ target: { value } }) => setEmail(value)}
+              type="email"
+              placeholder="Email"
+              error={error ? "something went wrong" : false}
+            />
+            <Input
+              label="Password"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={({ target: { value } }) => setPassword(value)}
+              error={error ? "something went wrong" : false}
+            />
+            <Input
+              label="Confirm Password"
+              type="password"
+              placeholder="Password"
+              value={confirmPassword}
+              onChange={({ target: { value } }) => setConfirmPassword(value)}
+              error={error ? "something went wrong" : false}
+            />
 
-          <button
-            className={classNames("button is-primary is-fullwidth", {
-              "is-loading": loading
-            })}
-            onClick={submit}
-          >
-            Sign Up
-          </button>
+            <button
+              className={classNames("button is-primary is-fullwidth", {
+                "is-loading": loading
+              })}
+              onClick={submit}
+            >
+              Sign Up
+            </button>
+          </form>
           <div className="has-text-centered" style={{ marginTop: "2rem" }}>
             <Link to="/login">Already have an account?</Link>
           </div>

@@ -40,31 +40,33 @@ const Login = props => {
         </div>
         <Container small card>
           <h2 className="title">Login</h2>
-          <Input
-            label="Email"
-            value={email}
-            onChange={({ target: { value } }) => setEmail(value)}
-            type="email"
-            placeholder="Email"
-            error={error ? "something went wrong" : false}
-          />
-          <Input
-            label="Password"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={({ target: { value } }) => setPassword(value)}
-            error={error ? "something went wrong" : false}
-          />
+          <form>
+            <Input
+              label="Email"
+              value={email}
+              onChange={({ target: { value } }) => setEmail(value)}
+              type="email"
+              placeholder="Email"
+              error={error ? "something went wrong" : false}
+            />
+            <Input
+              label="Password"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={({ target: { value } }) => setPassword(value)}
+              error={error ? "something went wrong" : false}
+            />
 
-          <button
-            className={classNames("button is-primary is-fullwidth", {
-              "is-loading": loading
-            })}
-            onClick={submit}
-          >
-            Login
-          </button>
+            <button
+              className={classNames("button is-primary is-fullwidth", {
+                "is-loading": loading
+              })}
+              onClick={submit}
+            >
+              Login
+            </button>
+          </form>
           <div className="has-text-centered" style={{ marginTop: "2rem" }}>
             <Link to="/signup">Don{"'"}t have an account?</Link>
           </div>
