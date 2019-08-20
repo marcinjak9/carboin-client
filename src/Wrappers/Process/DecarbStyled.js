@@ -1,6 +1,13 @@
 import styled from "styled-components";
 import Slider from "rc-slider";
 
+export const Section = styled.section`
+  @media (max-width: 768px) {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+`;
+
 export const Graphics = styled.div`
   margin-top: 4rem !important;
   margin-bottom: 4rem !important;
@@ -70,10 +77,17 @@ export const Recap = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
 
   h3 {
     font-weight: 700;
     color: #fff;
     font-size: 1.3rem;
+  }
+
+  @media (max-width: 768px) {
+    p {
+      margin-bottom: 20px;
+    }
   }
 `;

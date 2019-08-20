@@ -105,13 +105,14 @@ const Profile = ({ auth, profile, firebase }) => {
             <div className="field">
               <div className="control">
                 <p>
-                  Your profile url:{" "}
                   <a
                     style={{ fontSize: ".8rem" }}
-                    href={`http://localhost:3000/u/${auth.uid}`}
+                    href={`https://app.carboin.org/u/${auth.uid}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                  >{`http://localhost:3000/u/${auth.uid}`}</a>
+                  >
+                    Public profile
+                  </a>
                 </p>
               </div>
             </div>

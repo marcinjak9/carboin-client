@@ -6,7 +6,7 @@ import firestoreConnect from "react-redux-firebase/lib/firestoreConnect";
 import Container from "Components/Container";
 import Hero from "Components/Hero";
 import FeedItem from "Components/FeedItem";
-import Leaderboard from "Components/Leaderboard";
+import CarbonCounter from "../Components/CarbonCounter";
 
 const Section = styled.div`
   background-color: #f2f2f2;
@@ -33,7 +33,7 @@ const History = ({ feed, profile }) => {
                   ))}
             </div>
             <div className="column">
-              <Leaderboard />
+              <CarbonCounter />
             </div>
           </div>
         </Container>

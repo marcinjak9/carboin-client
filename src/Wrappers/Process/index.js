@@ -11,7 +11,13 @@ import { ReactComponent as Bitcoin } from "images/bitcoin.svg";
 import { ReactComponent as Forest } from "images/forest.svg";
 import { ReactComponent as Carbon } from "images/carbon.svg";
 import Container from "Components/Container";
-import { Counter, Graphics, StyledSlider, Recap } from "./DecarbStyled";
+import {
+  Counter,
+  Graphics,
+  StyledSlider,
+  Recap,
+  Section
+} from "./DecarbStyled";
 
 const MIN = 1;
 const MAX = 100;
@@ -62,7 +68,7 @@ const Process = ({ auth, firestore, firebase, profile }) => {
     }
   };
   return (
-    <section className="section">
+    <Section className="section">
       <Container small card>
         <h2 className="title">Decarbonize</h2>
         <h3 className="subtitle">
@@ -134,7 +140,7 @@ const Process = ({ auth, firestore, firebase, profile }) => {
           </button>
         </Recap>
       </Container>
-    </section>
+    </Section>
   );
 };
 
