@@ -13,7 +13,7 @@ const PublicProfile = ({ user }) => {
   return (
     <div className="section">
       <Container small card className="has-text-centered">
-        <AvatarS src={user.avatar} size={100} />
+        <AvatarS src={user.avatar} size={100} name={user.displayName} />
         <h2 className="title has-text-centered">{user.displayName}</h2>
         <p>{user.bio || ""}</p>
         <br />

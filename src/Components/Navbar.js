@@ -36,7 +36,7 @@ const NAV_AVATAR = [
   { name: "Sign out", to: "/logout" }
 ];
 
-const Navigation = ({ location: { pathname }, auth }) => {
+const Navigation = ({ location: { pathname }, auth, profile }) => {
   const [open, setOpen] = useState(false);
 
   const toggle = e => {
@@ -96,9 +96,8 @@ const Navigation = ({ location: { pathname }, auth }) => {
               {isLogged ? (
                 <div className="navbar-item has-dropdown is-hoverable">
                   <a className="navbar-link">
-                    <Avatar />
+                    <Avatar src={profile ? profile.avatar : null} />
                   </a>
-                  {/* <a className="navbar-link">More</a> */}
 
                   <div className="navbar-dropdown is-right">
                     {NAV_AVATAR.map(n => (
@@ -123,54 +122,11 @@ const Navigation = ({ location: { pathname }, auth }) => {
         </div>
       </div>
     </NavWrapper>
-    // <NavWrapper>
-    //   <div className="nav">
-    //     <div className="nav-section left">
-    //       {NAV.left.map(n => {
-    //         if (n.to) {
-    //           return (
-    //             <Link
-    //               key={n.name}
-    //               to={n.to}
-    //               className={pathname === n.to ? "active" : ""}
-    //             >
-    //               {n.name}
-    //             </Link>
-    //           );
-    //         }
-    //         if (n.dropdown) {
-    //           return (
-    //             <NavDropdown key={n.name} name={n.name} dropdown={n.dropdown} />
-    //           );
-    //         }
-    //       })}
-    //     </div>
-    //     <div className="nav-section center">
-    //       <Logo height={30} />
-    //     </div>
-    //     <div className="nav-section right">
-    //       {/* <Link to="/profile">Profile</Link> */}
-    //       {NAV.right.map(n => (
-    //         <Link
-    //           key={n.name}
-    //           to={n.to}
-    //           className={pathname === n.to ? "active" : ""}
-    //         >
-    //           {n.name}
-    //         </Link>
-    //       ))}
-    //       <button className="button is-danger" onClick={firebase.logout}>
-    //         Logout
-    //       </button>
-    //       <Avatar />
-    //     </div>
-    //   </div>
-    // </NavWrapper>
   );
 };
 
 export default compose(
   withFirebase,
   withRouter,
-  connect(({ firebase: { auth } }) => ({ auth }))
+  connect(({ firebase: { auth, profile } }) => ({ auth, profile }))
 )(Navigation);

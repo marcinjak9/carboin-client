@@ -26,9 +26,11 @@ const Home = ({ feed }) => {
           <div className="columns">
             <div className="column is-two-thirds">
               {feed &&
-                feed.map(f => (
-                  <FeedItem key={f.key} amount={f.amount} user={f.user} />
-                ))}
+                feed
+                  .reverse()
+                  .map(f => (
+                    <FeedItem key={f.key} amount={f.amount} user={f.user} />
+                  ))}
             </div>
             <div className="column">
               <Leaderboard />

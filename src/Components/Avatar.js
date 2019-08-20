@@ -1,10 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { connect } from "react-redux";
-import { isLoaded, isEmpty } from "react-redux-firebase";
-import md5 from "md5";
 
-export const AvatarS = styled.img`
+const AvatarStyled = styled.img`
   background-color: #fff;
   /* padding: 4px; */
   border: 2px solid #94c53e;
@@ -15,18 +12,13 @@ export const AvatarS = styled.img`
   border-radius: 50%;
 `;
 
-const Avatar = ({ profile, size }) => {
-  let url = "https://www.gravatar.com/avatar/";
-  if (isLoaded(profile)) {
-    if (profile.avatar) {
-      url = profile.avatar;
-    } else {
-      url = `https://www.gravatar.com/avatar/${md5(profile.email || "")}`;
-    }
+const Avatar = ({ src, size, name }) => {
+  if (!src) {
+    src = `https://api.adorable.io/avatars/285/${name || "carboin"}.png`;
   }
-  return <AvatarS src={url} size={size} />;
+  return <AvatarStyled src={src} size={size} />;
 };
 
-const mapStateToProps = ({ firebase: { profile } }) => ({ profile });
+export const AvatarS = Avatar;
 
-export default connect(mapStateToProps)(Avatar);
+export default Avatar;

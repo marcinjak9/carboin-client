@@ -125,7 +125,8 @@ const Process = ({ auth, firestore }) => {
     try {
       await firestore.add("feed", {
         amount: value,
-        user: auth.uid
+        user: auth.uid,
+        createdAt: new Date().toISOString()
       });
       setLoading(false);
     } catch (error) {

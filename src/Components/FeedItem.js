@@ -15,7 +15,7 @@ const FeedItem = ({ amount, user }) => {
       <div className="header">
         <div className="left">
           <Link to={url}>
-            <AvatarS src={user.avatar} size={50} />
+            <AvatarS src={user.avatar} name={user.displayName} size={50} />
           </Link>
           <div className="name">
             <Link to={url}>
@@ -31,6 +31,7 @@ const FeedItem = ({ amount, user }) => {
           <a
             href={`https://twitter.com/intent/tweet?text=${tweet}`}
             target="_blank"
+            rel="noopener noreferrer"
           >
             <FontAwesomeIcon icon={faTwitter} />
           </a>
