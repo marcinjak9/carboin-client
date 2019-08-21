@@ -57,6 +57,7 @@ const Login = props => {
               onChange={({ target: { value } }) => setPassword(value)}
               error={error ? "something went wrong" : false}
             />
+            <Link to="/forgot">Forgot your password?</Link>
 
             <button
               className={classNames("button is-primary is-fullwidth", {

@@ -26,6 +26,8 @@ import {
 import History from "Wrappers/History";
 import Projects from "Wrappers/Projects";
 import PublicProfile from "Wrappers/PublicProfile";
+import Forgot from "./Wrappers/Forgot";
+import Alerts from "./Components/Alerts";
 
 const App = () => {
   return (
@@ -33,10 +35,12 @@ const App = () => {
       <ReactReduxFirebaseProvider {...rrfProps}>
         <Reset />
         <Router>
+          <Alerts />
           <Navbar />
           <div style={{ minHeight: "80vh" }}>
             <Route path="/" exact component={UserIsAuthenticated(Home)} />
             <Route path="/login" component={UserIsNotAuthenticated(Login)} />
+            <Route path="/forgot" component={UserIsNotAuthenticated(Forgot)} />
             <Route path="/signup" component={SignUp} />
             <Route path="/u/:id" component={PublicProfile} />
             <Route path="/logout" component={UserIsAuthenticated(Logout)} />
