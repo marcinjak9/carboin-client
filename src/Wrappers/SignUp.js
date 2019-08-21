@@ -8,6 +8,7 @@ import { isLoaded, isEmpty } from "react-redux-firebase";
 import Container from "Components/Container";
 import Input from "Components/Input";
 import { ReactComponent as Logo } from "images/LOGO_verde.svg";
+import GoogleButton from "react-google-button";
 
 const SignUp = ({ auth, firebase }) => {
   const [email, setEmail] = useState("");
@@ -45,6 +46,29 @@ const SignUp = ({ auth, firebase }) => {
       setLoading(false);
     }
   }
+  const googleLogin = async () => {
+    setLoading(true);
+    setError(false);
+    try {
+      const r = await firebase.login({ provider: "google", type: "popup" });
+      const p = r.additionalUserInfo.profile;
+      const u = {
+        email: p.email,
+        displayName: p.name,
+        avatar: p.picture,
+        bio: "",
+        publicProfile: true,
+        newsletter: true,
+        reminders: true,
+        score: 0
+      };
+      await firebase.updateProfile(u);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(true);
+    }
+  };
   if (!isLoaded(auth)) {
     return <span>Loading...</span>;
   }
@@ -98,6 +122,16 @@ const SignUp = ({ auth, firebase }) => {
             >
               Sign Up
             </button>
+            <div
+              className="has-text-centered"
+              style={{
+                marginTop: "1.5rem",
+                display: "flex",
+                justifyContent: "center"
+              }}
+            >
+              <GoogleButton onClick={googleLogin} />
+            </div>
           </form>
           <div className="has-text-centered" style={{ marginTop: "2rem" }}>
             <Link to="/login">Already have an account?</Link>

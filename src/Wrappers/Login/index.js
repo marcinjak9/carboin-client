@@ -4,9 +4,11 @@ import { Redirect, Link } from "react-router-dom";
 import { compose } from "redux";
 import withFirebase from "react-redux-firebase/lib/withFirebase";
 import { isLoaded, isEmpty } from "react-redux-firebase";
+import GoogleButton from "react-google-button"; // optional
 import classNames from "classnames";
 import Container from "Components/Container";
 import Input from "Components/Input";
+
 import { ReactComponent as Logo } from "images/LOGO_verde.svg";
 
 const Login = props => {
@@ -22,6 +24,18 @@ const Login = props => {
     setError(false);
     try {
       await firebase.login({ email, password });
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(true);
+    }
+  };
+
+  const googleLogin = async () => {
+    setLoading(true);
+    setError(false);
+    try {
+      await firebase.login({ provider: "google", type: "popup" });
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -63,10 +77,21 @@ const Login = props => {
               className={classNames("button is-primary is-fullwidth", {
                 "is-loading": loading
               })}
+              style={{ marginTop: "1rem" }}
               onClick={submit}
             >
               Login
             </button>
+            <div
+              className="has-text-centered"
+              style={{
+                marginTop: "1.5rem",
+                display: "flex",
+                justifyContent: "center"
+              }}
+            >
+              <GoogleButton onClick={googleLogin} />
+            </div>
           </form>
           <div className="has-text-centered" style={{ marginTop: "2rem" }}>
             <Link to="/signup">Don{"'"}t have an account?</Link>

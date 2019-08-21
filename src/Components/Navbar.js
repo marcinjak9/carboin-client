@@ -33,15 +33,20 @@ const NAV_AVATAR = [
   { name: "Settings", to: "/settings" },
   { name: "Contact us", to: "/contact" },
   { name: "Feedback", to: "/feedback" },
-  { name: "Sign out", to: "/logout" }
+  { name: "Sign out", action: "logout" }
 ];
 
-const Navigation = ({ auth, profile }) => {
+const Navigation = ({ auth, profile, firebase }) => {
   const [open, setOpen] = useState(false);
 
   const toggle = e => {
     e.preventDefault();
     setOpen(!open);
+  };
+
+  const logout = e => {
+    e.preventDefault();
+    firebase.logout();
   };
 
   const isLogged = isLoaded(auth) && !isEmpty(auth);
@@ -100,11 +105,22 @@ const Navigation = ({ auth, profile }) => {
                   </a>
 
                   <div className="navbar-dropdown is-right">
-                    {NAV_AVATAR.map(n => (
-                      <Link key={n.name} to={n.to} className="navbar-item">
-                        {n.name}
-                      </Link>
-                    ))}
+                    {NAV_AVATAR.map(n => {
+                      if (n.to) {
+                        return (
+                          <Link key={n.name} to={n.to} className="navbar-item">
+                            {n.name}
+                          </Link>
+                        );
+                      }
+                      if (n.action === "logout") {
+                        return (
+                          <a href="#" onClick={logout} className="navbar-item">
+                            Logout
+                          </a>
+                        );
+                      }
+                    })}
                   </div>
                 </div>
               ) : (

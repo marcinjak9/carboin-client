@@ -43,7 +43,7 @@ const App = () => {
             <Route path="/forgot" component={UserIsNotAuthenticated(Forgot)} />
             <Route path="/signup" component={SignUp} />
             <Route path="/u/:id" component={PublicProfile} />
-            <Route path="/logout" component={UserIsAuthenticated(Logout)} />
+            {/* <Route path="/logout" component={UserIsAuthenticated(Logout)} /> */}
             <Route path="/process" component={UserIsAuthenticated(Process)} />
             <Route path="/history" component={UserIsAuthenticated(History)} />
             <Route path="/projects" component={UserIsAuthenticated(Projects)} />
