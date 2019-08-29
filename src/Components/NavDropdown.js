@@ -17,7 +17,7 @@ const NavDropdown = ({ name, dropdown }) => {
           }
           if (d.comingsoon) {
             return (
-              <span className="navbar-item" key={d.name}>
+              <span className="navbar-item has-text-grey-light	" key={d.name}>
                 {d.name} (comingsoon)
               </span>
             );

@@ -103,7 +103,6 @@ const Navigation = ({ auth, profile, firebase }) => {
                   <a className="navbar-link">
                     <Avatar src={profile ? profile.avatar : null} />
                   </a>
-
                   <div className="navbar-dropdown is-right">
                     {NAV_AVATAR.map(n => {
                       if (n.to) {

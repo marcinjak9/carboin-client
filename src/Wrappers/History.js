@@ -13,7 +13,6 @@ const Section = styled.div`
 `;
 
 const History = ({ feed, profile }) => {
-  console.log(feed);
   return (
     <>
       <Hero

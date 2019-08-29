@@ -79,7 +79,10 @@ const SignUp = ({ auth, firebase }) => {
           <Logo width={150} />
         </div>
         <Container small card>
-          <h2 className="title">Signup now</h2>
+          <h2 className="title has-text-centered">Signup now</h2>
+          <h3 className="subtitle has-text-centered">
+            Start offsetting your bitcoins
+          </h3>
           <form onSubmit={e => e.preventDefault()}>
             <Input
               label="Name"

@@ -19,6 +19,7 @@ const Home = ({ feed }) => {
       <Hero
         title="Feed"
         subtitle="Here you can find a live feed of our decarbonizators"
+        cta={{ url: "/process/custom", text: "Offset now" }}
       />
       <Section className="section">
         <Container>
@@ -53,7 +54,9 @@ export default compose(
       feed: state.firestore.ordered.feed
         ? state.firestore.ordered.feed.map(f => ({
             ...f,
-            user: state.firestore.data.profile[f.user] || null
+            user: state.firestore.data.profile
+              ? state.firestore.data.profile[f.user]
+              : null
           }))
         : [],
       auth: state.firebase.auth

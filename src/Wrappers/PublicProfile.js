@@ -5,8 +5,10 @@ import firestoreConnect from "react-redux-firebase/lib/firestoreConnect";
 import Container from "Components/Container";
 import { AvatarS } from "Components/Avatar";
 import LoadingScreen from "Components/LoadingScreen";
+import FeedItem from "Components/FeedItem";
+import moment from "moment";
 
-const PublicProfile = ({ user }) => {
+const PublicProfile = ({ user, feed }) => {
   if (!user) {
     return <LoadingScreen />;
   }
@@ -16,17 +18,25 @@ const PublicProfile = ({ user }) => {
         <AvatarS src={user.avatar} size={100} name={user.displayName} />
         <h2 className="title has-text-centered">{user.displayName}</h2>
         <p>{user.bio || ""}</p>
-        <br />
-        <br />
-        <br />
-        <p>Coming soon scoring</p>
+        <div style={{ marginTop: "5rem" }}>
+          {feed &&
+            feed.map(f => (
+              <FeedItem
+                key={f.id}
+                amount={f.amount}
+                user={user}
+                createdAt={moment(f.createdAt.toDate()).fromNow()}
+              />
+            ))}
+        </div>
       </Container>
     </div>
   );
 };
 
 const mapStateToProps = ({ firestore }) => ({
-  user: firestore.data.user
+  user: firestore.data.user,
+  feed: firestore.ordered.feed
 });
 
 const mapFirestore = ({
@@ -39,6 +49,11 @@ const mapFirestore = ({
     collection: "profile",
     doc: id,
     storeAs: "user"
+  },
+  {
+    collection: "feed",
+    where: ["user", "==", id],
+    orderBy: ["createdAt"]
   }
 ];
 

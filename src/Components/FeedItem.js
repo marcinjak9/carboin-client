@@ -6,9 +6,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 
 const FeedItem = ({ amount, user, createdAt }) => {
-  const tweet = `${
-    user.displayName
-  } has planted ${amount} trees throu %23carboin regenerating ${amount} %23bitcoin transactions! Try it now https://carboin.org`;
+  if (!user) {
+    return null;
+  }
+  const tweet = `${user.displayName} has planted ${amount} trees throu %23carboin regenerating ${amount} %23bitcoin transactions! Try it now https://carboin.org`;
   const url = `/u/${user.id}`;
   return (
     <Card>
@@ -21,7 +22,7 @@ const FeedItem = ({ amount, user, createdAt }) => {
             <Link to={url}>
               <h2 className="title-name">{user.displayName}</h2>
             </Link>
-            <p className="has-text-weight-bold is-prumary has-text-primary">
+            <p className="has-text-weight-bold is-prumary has-text-primary has-text-left">
               <span role="img" aria-label="leaf">
                 🌱
               </span>{" "}
@@ -47,7 +48,7 @@ const FeedItem = ({ amount, user, createdAt }) => {
       </div>
 
       <div className="body">
-        <b>{user.displayName}</b> has planted {amount} 🌲 decarbonizing{" "}
+        <b>{user.displayName}</b> has planted {amount} 🌲 offsetting{" "}
         <b>{amount / 2}</b> transactions
       </div>
     </Card>

@@ -24,6 +24,21 @@ const Alerts = ({ auth, firebase }) => {
     }
   };
 
+  return (
+    <Wrapper className="has-background-danger has-text-centered">
+      Currently carboin is only a preview app, you can register and try it, and
+      if you want provide a{" "}
+      <a
+        className="has-text-white has-text-bold"
+        style={{ fontWeight: "bold" }}
+        href="mailto:carboinapp@gmail.com"
+      >
+        feedback
+      </a>
+      !
+    </Wrapper>
+  );
+
   if (sent) {
     return null;
   }
